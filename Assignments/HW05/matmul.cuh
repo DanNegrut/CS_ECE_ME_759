@@ -5,7 +5,7 @@
 
 // You should implement Tiled Matrix Multiplication discussed in class
 // Computes the matrix product C = AB by making 'one' call to 'matmul_kernel'.
-// A, B, and C are row-major representations of nxn matrices in managed memory.
+// A, B, and C are row-major representations of nxn matrices.
 // Configures the kernel call using a 2D configuration with blocks of dimensions
 // block_dim x block_dim. The function should end in a call to
 // cudaDeviceSynchronize for timing purposes.
