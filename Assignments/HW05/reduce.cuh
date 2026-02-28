@@ -15,8 +15,7 @@ __global__ void reduce_kernel(float *g_idata, float *g_odata, unsigned int n);
 // part_ of the sum should be computed on host. *input is an array of length N
 // in device memory. *output is an array of length = (number of blocks needed
 // for the first call of the reduce_kernel) in device memory. configures the
-// kernel calls using threads_per_block threads per block. the function should
-// end in a call to cudaDeviceSynchronize for timing purposes
+// kernel calls using threads_per_block threads per block. 
 __host__ void reduce(float **input, float **output, unsigned int N,
                      unsigned int threads_per_block);
 
