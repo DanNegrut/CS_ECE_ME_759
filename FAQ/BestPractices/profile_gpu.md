@@ -58,8 +58,11 @@ A complete, ready-to-submit example is in [`GPU/profiling/`](../../GPU/profiling
 Key Slurm requirements:
 - `--gres=gpu:1` — both profilers require a GPU node
 - `module load nvidia/cuda/12.5.0` — matches Euler's current CUDA installation
-- `module load gcc/13.2.0` — CUDA 12.5 requires GCC ≤ 13 (Euler's system default is GCC 14)
+- `module load gcc/13.2.0` — CUDA 12.5 requires GCC ≤ 13 (Euler's system default is GCC 14;
+  `gcc/14.3.0` module also exists but is incompatible with CUDA 12.5)
 - `--compiler-bindir $(which g++)` — directs `nvcc` to the loaded GCC version
+- After `module load gcc/13.2.0` you will see an Lmod warning about "older platform" —
+  this is cosmetic; GCC 13.2.0 compiles CUDA correctly on Euler Generation 8
 
 ---
 

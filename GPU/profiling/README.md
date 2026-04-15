@@ -71,6 +71,19 @@ nvcc ... --compiler-bindir $(which g++) ...
 
 If you write your own Slurm scripts for CUDA on Euler, include these two lines.
 
+**Expected Lmod warning — safe to ignore:**
+
+After `module load gcc/13.2.0` you will see:
+
+```
+Lmod Warning: This module was built for an older platform and may not work
+correctly! (gcc/13.2.0)
+```
+
+This is a cosmetic warning from Euler's Generation 8 upgrade. GCC 13.2.0 still
+compiles CUDA code correctly — `gcc/14.3.0` is available but is incompatible with
+CUDA 12.5 (nvcc's maximum supported compiler version is GCC 13).
+
 ## Further Reading
 
 - [Nsight Compute CLI reference](https://docs.nvidia.com/nsight-compute/NsightComputeCli/index.html)
