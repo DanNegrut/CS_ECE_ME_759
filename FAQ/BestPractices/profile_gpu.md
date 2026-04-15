@@ -53,13 +53,19 @@ For details: `nsys profile --help` or [Nsight Systems docs](https://docs.nvidia.
 
 ## Slurm Template
 
-A complete, ready-to-submit example is in [`GPU/profiling/`](../../GPU/profiling/). It covers both `ncu` and `nsys` in one job and includes the GCC version pin needed for CUDA 12.5 on Euler.
+Ready-to-submit examples are in [`GPU/profiling/`](../../GPU/profiling/). Submit them
+from the `GPU/` directory:
+
+```sh
+sbatch profiling/profile_ncu.slurm
+sbatch profiling/profile_nsys.slurm
+```
 
 Key Slurm requirements:
 - `--gres=gpu:1` — both profilers require a GPU node
 - `module load nvidia/cuda/12.5.0` — matches Euler's current CUDA installation
-- `module load gcc/13.2.0` — CUDA 12.5 requires GCC ≤ 13 (Euler's system default is GCC 14;
-  `gcc/14.3.0` module also exists but is incompatible with CUDA 12.5)
+- `module load gcc/13.2.0` — CUDA 12.5 requires GCC ≤ 13 (Euler's default is GCC 14;
+  `gcc/14.3.0` also exists but is incompatible with CUDA 12.5)
 - `--compiler-bindir $(which g++)` — directs `nvcc` to the loaded GCC version
 - After `module load gcc/13.2.0` you will see an Lmod warning about "older platform" —
   this is cosmetic; GCC 13.2.0 compiles CUDA correctly on Euler Generation 8
@@ -68,15 +74,15 @@ Key Slurm requirements:
 
 ## Copying Profiles Back to Your Machine
 
-After the Slurm job completes, copy the report files to your local machine with `scp`:
+After the Slurm job completes, copy the report files to your local machine with `scp`.
+Replace `netid` with your UW NetID:
 
-```bash
-# from your local machine
-scp euler:/path/to/profile_ncu.ncu-rep .
-scp euler:/path/to/profile_nsys.nsys-rep .
+```sh
+scp netid@euler.engr.wisc.edu:~/path/to/GPU/profile_ncu.ncu-rep  .
+scp netid@euler.engr.wisc.edu:~/path/to/GPU/profile_nsys.nsys-rep .
 ```
 
-Or use the helper script in `GPU/profiling/fetch_profiles.sh`.
+See [Transferring Files](transferring_files.md) for more detail on `scp`.
 
 ---
 

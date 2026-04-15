@@ -8,39 +8,36 @@ CUDA 12 removed the NVIDIA Visual Profiler (`nvvp`). The replacements are:
 
 ## Quick Start
 
-These scripts profile `GPU/stencil1D.cu` (already in this repo) using a relative path
-(`../stencil1D.cu`), so they must be submitted from within the `GPU/profiling/` directory
-of a cloned copy of this repo.
+These scripts profile `GPU/stencil1D.cu`. Submit them from the `GPU/` directory
+so that `stencil1D.cu` is in the working directory (`cd $SLURM_SUBMIT_DIR`).
 
-```bash
-# on Euler — clone the repo if you haven't already
-git clone https://github.com/DanNegrut/CS_ECE_ME_759.git
-cd CS_ECE_ME_759/GPU/profiling
-
-sbatch profile_ncu.slurm
-sbatch profile_nsys.slurm
+```sh
+# on Euler, from the GPU/ directory of a cloned copy of this repo
+sbatch profiling/profile_ncu.slurm
+sbatch profiling/profile_nsys.slurm
 ```
 
-When the jobs finish (check with `squeue -u $USER`), report files appear in `GPU/profiling/`:
+When the jobs finish (check with `squeue -u $USER`), report files appear in `GPU/`:
 - `profile_ncu.ncu-rep` — Nsight Compute report
 - `profile_nsys.nsys-rep` — Nsight Systems report
 
-## Getting the Results
+## Copying the Reports to Your Local Machine
 
-Copy the report files to your local machine:
+Use `scp` to fetch the files. Replace `netid` with your UW NetID:
 
-```bash
-# on your local machine
-bash fetch_profiles.sh euler:/scratch/your_netid/profiling
+```sh
+scp netid@euler.engr.wisc.edu:~/path/to/GPU/profile_ncu.ncu-rep  .
+scp netid@euler.engr.wisc.edu:~/path/to/GPU/profile_nsys.nsys-rep .
 ```
 
 Then open them in the GUI:
-```bash
-ncu-ui profile_ncu.ncu-rep
+```sh
+ncu-ui  profile_ncu.ncu-rep
 nsys-ui profile_nsys.nsys-rep
 ```
 
-No GPU needed locally.
+No GPU needed locally. See [Transferring Files](../../FAQ/BestPractices/transferring_files.md)
+for more detail on `scp`.
 
 ## Installing the GUIs
 
@@ -57,13 +54,13 @@ Both are free; a NVIDIA developer account is required for download.
 |------|---------|
 | `profile_ncu.slurm` | Profile with Nsight Compute → `.ncu-rep` |
 | `profile_nsys.slurm` | Profile with Nsight Systems → `.nsys-rep` |
-| `fetch_profiles.sh` | Copy report files from Euler to local machine |
 
 ## Notes on CUDA 12.5 + GCC
 
-Euler's default compiler is GCC 14, but CUDA 12.5 requires GCC ≤ 13. The Slurm scripts handle this automatically:
+Euler's default compiler is GCC 14, but CUDA 12.5 requires GCC ≤ 13. The Slurm scripts
+handle this automatically:
 
-```bash
+```sh
 module load gcc/13.2.0
 module load nvidia/cuda/12.5.0
 nvcc ... --compiler-bindir $(which g++) ...
@@ -76,13 +73,13 @@ If you write your own Slurm scripts for CUDA on Euler, include these two lines.
 After `module load gcc/13.2.0` you will see:
 
 ```
-Lmod Warning: This module was built for an older platform and may not work
-correctly! (gcc/13.2.0)
+Lmod Warning: This module was built for an older platform and may not work correctly!
 ```
 
 This is a cosmetic warning from Euler's Generation 8 upgrade. GCC 13.2.0 still
-compiles CUDA code correctly — `gcc/14.3.0` is available but is incompatible with
-CUDA 12.5 (nvcc's maximum supported compiler version is GCC 13).
+compiles CUDA code correctly — confirmed by live test on Euler. `gcc/14.3.0` is
+available but is incompatible with CUDA 12.5 (nvcc's maximum supported compiler
+version is GCC 13).
 
 ## Further Reading
 

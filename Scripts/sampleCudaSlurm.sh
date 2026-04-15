@@ -7,6 +7,8 @@
 #SBATCH --gres=gpu:1
 #SBATCH --output=cuda_hello-%j.out
 
+cd $SLURM_SUBMIT_DIR
+
 # CUDA 12.5 requires GCC <= 13; Euler's system default is GCC 14
 module load gcc/13.2.0
 module load nvidia/cuda/12.5.0
