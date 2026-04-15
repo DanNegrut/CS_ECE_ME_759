@@ -91,10 +91,6 @@ Download from the NVIDIA developer site (free account required):
 
 After installation, open the `.ncu-rep` or `.nsys-rep` file with **File → Open**.
 
-The screenshot below is from Nsight Compute showing the Details page for `applyStencil1D`, with DRAM throughput and source-line annotations visible:
-
-![vecAdd profile](vecAdd_prof.png?raw=true)
-
 ---
 
 ## What to Look For

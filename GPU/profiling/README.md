@@ -8,17 +8,20 @@ CUDA 12 removed the NVIDIA Visual Profiler (`nvvp`). The replacements are:
 
 ## Quick Start
 
-These scripts profile `GPU/stencil1D.cu` (already in this repo). Submit them from a directory on Euler's scratch space:
+These scripts profile `GPU/stencil1D.cu` (already in this repo) using a relative path
+(`../stencil1D.cu`), so they must be submitted from within the `GPU/profiling/` directory
+of a cloned copy of this repo.
 
 ```bash
-# on Euler
-cd /scratch/your_netid/profiling
-cp /path/to/CS_ECE_ME_759/GPU/profiling/*.slurm .
+# on Euler — clone the repo if you haven't already
+git clone https://github.com/DanNegrut/CS_ECE_ME_759.git
+cd CS_ECE_ME_759/GPU/profiling
+
 sbatch profile_ncu.slurm
 sbatch profile_nsys.slurm
 ```
 
-When the jobs finish (check with `squeue -u $USER`), the output directory contains:
+When the jobs finish (check with `squeue -u $USER`), report files appear in `GPU/profiling/`:
 - `profile_ncu.ncu-rep` — Nsight Compute report
 - `profile_nsys.nsys-rep` — Nsight Systems report
 
